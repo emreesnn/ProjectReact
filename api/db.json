@@ -1,0 +1,8 @@
+{
+    "product": [
+        { "id": 1, "title": "food1", "author": "typicode" }
+      ],
+    "categories": [
+      { "id": 1, "title": "json-server", "author": "typicode" }
+    ]
+  }
