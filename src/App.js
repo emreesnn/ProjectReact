@@ -8,9 +8,26 @@ import { Row, Col } from "reactstrap";
 export default class App extends Component {
   state = {
     currentCategory: "",
+    products: [],
   };
+
   changeCategory = (category) => {
     this.setState({ currentCategory: category.categoryName });
+    this.getProducts(category.id);
+  };
+
+  componentDidMount() {
+    this.getProducts();
+  }
+
+  getProducts = (categoryId) => {
+    let url = "http://localhost:3000/product/";
+    if (categoryId) {
+      url += "?categoryId=" + categoryId;
+    }
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => this.setState({ products: data }));
   };
 
   render() {
@@ -31,7 +48,11 @@ export default class App extends Component {
               />
             </Col>
             <Col xs="9">
-              <ProductList currentCategory={this.state.currentCategory} info={productInfo} />
+              <ProductList
+                currentCategory={this.state.currentCategory}
+                info={productInfo}
+                products={this.state.products}
+              />
             </Col>
           </Row>
         </Container>
