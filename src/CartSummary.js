@@ -16,9 +16,15 @@ export default class CartSummary extends Component {
         <DropdownToggle nav caret>
           Sepet - {this.props.cart.length}
         </DropdownToggle>
-        <DropdownMenu right>
+        <DropdownMenu end>
           {this.props.cart.map((cartItem) => (
-            <DropdownItem>
+            <DropdownItem key={cartItem.product.id}>
+              <Badge
+                color="danger"
+                onClick={() => this.props.removeFromCart(cartItem.product)}
+              >
+                X
+              </Badge>
               {cartItem.product.productName}
               <Badge>{cartItem.quantity}</Badge>
             </DropdownItem>
@@ -40,7 +46,9 @@ export default class CartSummary extends Component {
   render() {
     return (
       <div>
-        {this.props.cart.length > 0 ? this.renderSummary() : this.renderEmptyCart()}
+        {this.props.cart.length > 0
+          ? this.renderSummary()
+          : this.renderEmptyCart()}
       </div>
     );
   }

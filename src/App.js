@@ -14,15 +14,20 @@ export default class App extends Component {
 
   addToCart = (product) => {
     let newCart = this.state.cart;
-    var addedItem = newCart.find(c=>c.product.id===product.id)
-    if(addedItem)
-    {
-      addedItem.quantity+=1;
+    var addedItem = newCart.find((c) => c.product.id === product.id);
+    if (addedItem) {
+      addedItem.quantity += 1;
+    } else {
+      newCart.push({ product: product, quantity: 1 });
     }
-    else{
-      newCart.push({product:product,quantity:1});
-    }
-    this.setState({cart:newCart})  
+    this.setState({ cart: newCart });
+  };
+
+  removeFromCart = (product) => {
+    let newCart = this.state.cart.filter(
+      c => c.product.id !== product.id
+    );
+    this.setState({ cart: newCart });
   };
 
   changeCategory = (category) => {
@@ -50,7 +55,7 @@ export default class App extends Component {
     return (
       <div>
         <Container>
-          <Navi cart={this.state.cart}/>
+          <Navi removeFromCart={this.removeFromCart} cart={this.state.cart} />
           <Row>
             <Col xs="3">
               <CategoryList
@@ -64,7 +69,7 @@ export default class App extends Component {
                 currentCategory={this.state.currentCategory}
                 info={productInfo}
                 products={this.state.products}
-                addToCart = {this.addToCart}
+                addToCart={this.addToCart}
               />
             </Col>
           </Row>
