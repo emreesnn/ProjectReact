@@ -5,6 +5,9 @@ import Navi from "./Navi";
 import ProductList from "./ProductList";
 import { Row, Col } from "reactstrap";
 import alertify from "alertifyjs";
+import { Route, Routes } from "react-router-dom";
+import NotFound from "./NotFound";
+import CartList from "./CartList";
 
 export default class App extends Component {
   state = {
@@ -22,13 +25,11 @@ export default class App extends Component {
       newCart.push({ product: product, quantity: 1 });
     }
     this.setState({ cart: newCart });
-    alertify.success(product.productName + " Sepete Eklendi")
+    alertify.success(product.productName + " Sepete Eklendi");
   };
 
   removeFromCart = (product) => {
-    let newCart = this.state.cart.filter(
-      c => c.product.id !== product.id
-    );
+    let newCart = this.state.cart.filter((c) => c.product.id !== product.id);
     this.setState({ cart: newCart });
   };
 
@@ -67,12 +68,22 @@ export default class App extends Component {
               />
             </Col>
             <Col xs="9">
-              <ProductList
-                currentCategory={this.state.currentCategory}
-                info={productInfo}
-                products={this.state.products}
-                addToCart={this.addToCart}
-              />
+              <Routes>
+                <Route
+                  exact
+                  path="/"
+                  element={
+                    <ProductList
+                      currentCategory={this.state.currentCategory}
+                      info={productInfo}
+                      products={this.state.products}
+                      addToCart={this.addToCart}
+                    />
+                  }
+                />
+                <Route exact path="/cart" element={<CartList/>} />
+                <Route exact path="/*" element={<NotFound/>} />
+              </Routes>
             </Col>
           </Row>
         </Container>
